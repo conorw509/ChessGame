@@ -141,7 +141,8 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         }
         return oponent;
     }
-
+/*This method takes the co-oridantes of a piece as arugments checks if the jLable on a given square 
+    contains the text "black" */
     private Boolean checkBlackOponent(int newX, int newY) {
         Boolean oponent;
         Component c1 = chessBoard.findComponentAt(newX, newY);
@@ -199,6 +200,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 
         chessPiece.setVisible(false);
         Boolean success = false;
+       // Boolean progress = false; // progression?
         Component c = chessBoard.findComponentAt(e.getX(), e.getY());
         String tmp = chessPiece.getIcon().toString();
         String pieceName = tmp.substring(0, (tmp.length() - 4));
@@ -227,7 +229,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         System.out.println("landing co-ordinates are: " + "(" + landingX + "," + landingY + ")");
         System.out.println("---------------------------");
 
-        if (pieceName.equals("BlackPawn")) {
+       /* else if (pieceName.equals("BlackPawn")) {
             if (startY == 6) {
                 //if piece is in starting position move 1 or 2 squares 
                 if ((startX == landingX) && (((startY - landingY) == 1) || (startY - landingY) == 2)) {
@@ -244,7 +246,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                 }
             }
             
-            else if ((Math.abs(startX - landingX) == 1) & (((startY - landingY) == 1))) {
+            else if ((Math.abs(startX - landingX) == 1) && (((startY - landingY) == 1))) {
             //this line of code checks if the square were the pawn is being put back on the board
             //is 1 diagonal to the left or right
             
@@ -253,10 +255,11 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                 
                     if (checkBlackOponent(e.getX(), e.getY())) {
                         validMove = true;
-                        //then check if that piece is an opponents piece if so valid move
+                        //then check if that piece is a black piece
                        
-                        if (landingY == 0) {
-                            success = true;
+                        if (landingY == 0) { // if the laning positon on y axs is 0 
+                            success = true; // progression doesnt work is this correct see line 202
+                            //boolean progression is true jumps to line 372 and makes pawn into a queen
                         }
                     } 
                     
@@ -272,7 +275,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 
                
                 //if piece is not in starting position
-                else {
+               /* else 
                     if ((startX == landingX) && (((startY - landingY) == 1))) {
                         if (!piecePresent(e.getX(), e.getY())) {
 
@@ -280,9 +283,26 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                         }
                     } else {
                         validMove = false;
-                    }
+                    }*/  //what was this???
+                    
+          /*  else if(startY !=6)
+                if((startX == landingX) && (((startY - landingY) == 1))) {
+                        if (!piecePresent(e.getX(), e.getY())) {
+                            validMove = true;
+                               if (landingY == 0) {
+                                   success = true;
+                               }
+                        }
+                        else{
+                            validMove = false;
+                        }
                 }
-            } 
+                        
+                         else{
+                            validMove = false;
+                        }
+                
+            } */
             /*Above code
                 if the pawn is at starting position 6 
                 if the pawn is not being moved along the x axis and being moved 1 or 2 spaces on y axis
@@ -291,6 +311,56 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                 if the piece is not at starting position not being moved in x axis and 1 square on y axis
                 this is cool move the 
                 else this isnt a valid move*/ 
+            
+             if(pieceName.equals("BlackPawn")){
+                    if((startY == 6) &&(startX == landingX)&&(((startY-landingY)==1) || (startY-landingY)==2)){
+                        
+                        if(!piecePresent(e.getX(),e.getY())){
+                            validMove =true;
+                        }
+                        else{
+                            validMove = false;
+                        }
+                    }
+                    else if((Math.abs(startX-landingX)==1)&&(((startY-landingY)==1))){
+                            if(!piecePresent(e.getX(),e.getY())){
+                                if (checkBlackOponent(e.getX(), e.getY())) {
+                                    validMove = true;
+                                if(landingY == 0){
+                                    success = true;
+                                }
+                                }
+                                
+                                else{
+                                    validMove = false;
+                                }
+                            }
+                            else{
+                                validMove = false;
+                            }
+                    }
+                    
+                    else if((startY != 6)&&((startX ==landingX)&&(((startY-landingY)==1)))){
+              
+                           if(!piecePresent(e.getX(),e.getY())){
+                           validMove = true;
+                           if(landingY == 0){
+                                    success = true;
+                                }
+                                }
+                                
+                                else{
+                                    validMove = false;
+                                }
+                            }
+                            else{
+                                validMove = false;
+                            }
+                    }
+                           
+                    
+                              
+                    
             
             
             else if (pieceName.equals("WhitePawn")) { // if a piece is white pawn do something
@@ -365,7 +435,24 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                 pieces = new JLabel(new ImageIcon(pieceLocation));
                 panels = (JPanel) chessBoard.getComponent(location);
                 panels.add(pieces);
-            } else {
+            } 
+            /* else {
+                if (progress) {
+                    int location = 0 + (e.getX() / 75);
+                    if (c instanceof JLabel) {
+                        Container parent = c.getParent();
+                        parent.remove(0);
+                        pieces = new JLabel(new ImageIcon("BlackQueen.png"));
+                        parent = (JPanel) chessBoard.getComponent(location);
+                        parent.add(pieces); //changes piece to a black queen
+                    } /*else {
+                        Container parent = (Container) c;
+                        pieces = new JLabel(new ImageIcon("BlackQueen.png"));
+                        parent = (JPanel) chessBoard.getComponent(location);
+                        parent.add(pieces);
+                    }*/ //unsure of these lines }
+               // }
+            else {
                 if (success) {
                     int location = 56 + (e.getX() / 75);
                     if (c instanceof JLabel) {
