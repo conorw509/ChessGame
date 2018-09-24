@@ -202,10 +202,10 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
          * So a Pawn is able to move two squares forward one its first go but only one
          * square after that. The Pawn is the only piece that cannot move backwards in
          * chess...so be careful when committing a pawn forward. A Pawn is able to take
-         * any of the opponent’s pieces but they have to be one    forward and one
-         * square over, i.e. in a diagonal direction from the Pawns original position.
-         * If a Pawn makes it to the top of the other side, the Pawn can turn into any
-         * other piece, for demonstration purposes the Pawn here turns into a Queen.
+         * any of the opponent’s pieces but they have to be one   and one square over,
+         * i.e. in a diagonal direction from the Pawns original position. If a Pawn
+         * makes it to the top of the other side, the Pawn can turn into any other
+         * piece, for demonstration purposes the Pawn here turns into a Queen.
          */
 
         int landingX = (e.getX() / 75);
@@ -220,11 +220,53 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         System.out.println("landing cooridnates are : " + "(" + landingX + "," + landingY + ")");
         System.out.println("-----------------------------");
 
-        if (pieceName.equals("BlackQueen")) {
+        if (pieceName.contains("Queen")) {
             validMove = true;
         }
 
-        if (pieceName.equals("BlackPawn")) {//pawns first move
+        if (pieceName.contains("Knight")) {
+
+            /*
+             * we know knight moves in L direction meaning if x axis movement =1 y axis
+             * movment =2 also other way around
+             * 
+             * we need to check the square we are moving to and make sure that if there is a
+             * piece present that its not our own piece
+             */
+
+            // if knight is moving in L shape
+            if (((xMovement == 1) && (yMovement == 2)) || ((xMovement == 2) && (yMovement == 1))) {
+
+                if (!piecePresent(e.getX(), e.getY())) {
+                    validMove = true;
+
+                } // if theres no piece present make move
+
+                else {
+
+                    if (pieceName.contains("White")) {
+                        if (checkWhiteOponent(e.getX(), e.getY())) {
+                            validMove = true; // else we know piece present so check if its a white oponent if so valid move
+
+                        }
+                    }
+
+                    else {
+                        if (checkBlackOponent(e.getX(), e.getY())) {
+                            validMove = true; // else check if its a black opponent if it is its a valid move
+
+                        }
+
+                    }
+                }
+
+            }
+
+        }
+
+        if (pieceName.equals("BlackPawn"))
+
+        {// pawns first move
             if (startY == 6) {
 
                 if (((yMovement == 1) || (yMovement == 2)) && (startY > landingY) && (xMovement == 0)) {
