@@ -203,10 +203,10 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
          * So a Pawn is able to move two squares forward one its first go but only one
          * square after that. The Pawn is the only piece that cannot move backwards in
          * chess...so be careful when committing a pawn forward. A Pawn is able to take
-         * any of the opponent’s pieces but they have to be one   re over, i.e. in a
-         * diagonal direction from the Pawns original position. If a Pawn makes it to
-         * the top of the other side, the Pawn can turn into any other piece, for
-         * demonstration purposes the Pawn here turns into a Queen.
+         * any of the opponent’s pieces but they have to be one   , i.e. in a diagonal
+         * direction from the Pawns original position. If a Pawn makes it to the top of
+         * the other side, the Pawn can turn into any other piece, for demonstration
+         * purposes the Pawn here turns into a Queen.
          */
 
         int landingX = (e.getX() / 75);
@@ -377,6 +377,123 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 
         }
 
+        if (pieceName.contains("Rook")) {
+
+            Boolean inTheWay = false;
+            if (((landingX < 0) || (landingX > 7)) || ((landingY < 0) || (landingY > 7))) {
+                validMove = false;
+            }
+
+            else {
+
+                // if the piece is not being put back onto the board not a valid move
+                // first condition we need to regognise is that we will have a change in x and y
+                // movment but not both
+                if (((Math.abs(startX - landingX) != 0) && (Math.abs(startY - landingY) == 0))
+                        || ((Math.abs(startX - landingX) == 0) && (Math.abs(landingY - startY) != 0))) {
+
+                    if (Math.abs(startX - landingX) != 0) {
+                        xMovement = Math.abs(startX - landingX);
+                        if (startX - landingX > 0) {
+                            for (int i = 0; i < xMovement; i++) {
+                                if (piecePresent(initialX - (i * 75), e.getY())) {
+                                    inTheWay = true;
+                                    break;
+                                } else {
+                                    inTheWay = false;
+
+                                }
+                            }
+                        }
+
+                        else {
+                            for (int i = 0; i < xMovement; i++) {
+                                if (piecePresent(initialX + (i * 75), e.getY())) {
+                                    inTheWay = true;
+                                    break;
+                                } else {
+                                    inTheWay = false;
+
+                                }
+                            }
+                        }
+
+                    }
+
+                    else {
+                        yMovement = Math.abs(startY - landingY);
+                        if (startY - landingY > 0) {
+                            for (int i = 0; i < yMovement; i++) {
+                                if (piecePresent(e.getX(), initialY - (i + 75))) {
+                                    inTheWay = true;
+                                    break;
+                                } else {
+                                    inTheWay = false;
+
+                                }
+                            }
+                        }
+
+                        else {
+                            for (int i = 0; i < yMovement; i++) {
+                                if (piecePresent(e.getX(), initialY + (i * 75))) {
+                                    inTheWay = true;
+                                    break;
+                                } else {
+                                    inTheWay = false;
+
+                                }
+                            }
+                        }
+
+                    }
+
+                    if (inTheWay) {
+                        validMove = false;
+                    }
+
+                    if (inTheWay) {
+                        validMove = false;
+                    }
+
+                    else {
+                        if (piecePresent(e.getX(), (e.getY()))) {
+                            if (pieceName.contains("White")) {
+                                if (checkWhiteOponent(e.getX(), e.getY())) {
+                                    validMove = true;
+                                }
+
+                                else {
+                                    validMove = false;
+                                }
+                            }
+
+                            else {
+                                if (checkBlackOponent(e.getX(), e.getY())) {
+                                    validMove = true;
+                                }
+
+                                else {
+                                    validMove = false;
+                                }
+
+                            }
+                        }
+
+                        else {
+                            validMove = true;
+                        }
+
+                    }
+                }
+
+                else {
+                    validMove = false;
+                }
+            }
+
+        }
+
         if (pieceName.equals("BlackPawn"))
 
         {// pawns first move
@@ -456,6 +573,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                     validMove = false;
                 }
             } else {
+
                 int newY = e.getY() / 75;
                 int newX = e.getX() / 75;
                 if ((startX - 1 >= 0) || (startX + 1 <= 7)) {
