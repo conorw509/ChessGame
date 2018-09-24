@@ -424,7 +424,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                         yMovement = Math.abs(startY - landingY);
                         if (startY - landingY > 0) {
                             for (int i = 0; i < yMovement; i++) {
-                                if (piecePresent(e.getX(), initialY - (i + 75))) {
+                                if (piecePresent(e.getX(), initialY - (i * 75))) {
                                     inTheWay = true;
                                     break;
                                 } else {
@@ -446,10 +446,6 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                             }
                         }
 
-                    }
-
-                    if (inTheWay) {
-                        validMove = false;
                     }
 
                     if (inTheWay) {
