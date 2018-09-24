@@ -415,5 +415,4 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-
 }
