@@ -196,7 +196,6 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         String pieceName = tmp.substring(0, (tmp.length() - 4));
         Boolean validMove = false;
 
-        
         /*
          * The only piece that has been enabled to move is a White Pawn...but we should
          * really have this is a separate method somewhere...how would this work.
@@ -204,10 +203,10 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
          * So a Pawn is able to move two squares forward one its first go but only one
          * square after that. The Pawn is the only piece that cannot move backwards in
          * chess...so be careful when committing a pawn forward. A Pawn is able to take
-         * any of the opponent’s pieces but they have to be one   and one square over,
-         * i.e. in a diagonal direction from the Pawns original position. If a Pawn
-         * makes it to the top of the other side, the Pawn can turn into any other
-         * piece, for demonstration purposes the Pawn here turns into a Queen.
+         * any of the opponent’s pieces but they have to be one   re over, i.e. in a
+         * diagonal direction from the Pawns original position. If a Pawn makes it to
+         * the top of the other side, the Pawn can turn into any other piece, for
+         * demonstration purposes the Pawn here turns into a Queen.
          */
 
         int landingX = (e.getX() / 75);
@@ -222,7 +221,24 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         System.out.println("landing cooridnates are : " + "(" + landingX + "," + landingY + ")");
         System.out.println("-----------------------------");
 
-        if (pieceName.contains("Queen")) {
+        if (pieceName.contains("WhiteQueen")) {
+
+            /*
+             * if the queen is being placed back onto the board if the movment is like a
+             * bishop test for a valid move we have a valid bishop movement if the xmovement
+             * == movement if there is something in the way if there is a piece on the
+             * landing square, if so make sure that its an enemy piece if it is we have a
+             * valid move
+             * 
+             * else if the movement is like a rook test for a valid rook movement if there
+             * is an xmovement there cant be a ymovement if there is a ymovement there cant
+             * be an xmovement if one of the above conditions are true we simply make sure
+             * that there is nothing in the way and that we cannot take our own piece
+             * 
+             * 
+             * if its doing anything else its not a valid movement
+             */
+
             validMove = true;
         }
 
@@ -248,7 +264,8 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 
                     if (pieceName.contains("White")) {
                         if (checkWhiteOponent(e.getX(), e.getY())) {
-                            validMove = true; // else we know piece present so check if its a white oponent if so valid move
+                            validMove = true; // else we know piece present so check if its a white oponent if so valid
+                                              // move
 
                         }
                     }
@@ -262,6 +279,100 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                     }
                 }
 
+            }
+
+        }
+
+        if (pieceName.contains("Bishup")) {
+            Boolean inTheWay = false;
+            int distance = Math.abs(startX - landingX);
+            if (((landingX < 0) || (landingX > 7)) || ((landingY < 0) || (landingY > 7))) {
+                validMove = false;
+            }
+
+            else {
+                validMove = true;
+                if (Math.abs(startX - landingX) == Math.abs(startY - landingY)) {
+
+                    /*
+                     * Here we have 4 conditions to determine the direction of the diagnol that the
+                     * bishop is intedning to move along
+                     */
+                    if ((startX - landingX < 0) && (startY - landingY < 0)) {
+                        for (int i = 0; i < distance; i++) {
+
+                            if (piecePresent((initialX + (i * 75)), (initialY + (i * 75)))) {
+                                inTheWay = true;
+                            }
+                        }
+
+                    }
+
+                    else if ((startX - landingX < 0) && (startY - landingY > 0)) {
+                        for (int i = 0; i < distance; i++) {
+                            if (piecePresent((initialX + (i * 75)), (initialY - (i * 75)))) {
+                                inTheWay = true;
+                            }
+                        }
+
+                    }
+
+                    else if ((startX - landingX > 0) && (startY - landingY > 0)) {
+                        for (int i = 0; i < distance; i++) {
+                            if (piecePresent((initialX - (i * 75)), (initialY - (i * 75)))) {
+                                inTheWay = true;
+                            }
+                        }
+
+                    }
+
+                    else if ((startX - landingX > 0) && (startY - landingY < 0)) {
+                        for (int i = 0; i < distance; i++) {
+                            if (piecePresent((initialX - (i * 75)), (initialY + (i * 75)))) {
+                                inTheWay = true;
+                            }
+                        }
+
+                    }
+
+                    if (inTheWay) {
+                        validMove = false;
+                    }
+
+                    else {
+                        if (piecePresent(e.getX(), (e.getY()))) {
+                            if (pieceName.contains("White")) {
+                                if (checkWhiteOponent(e.getX(), e.getY())) {
+                                    validMove = true;
+                                }
+
+                                else {
+                                    validMove = false;
+                                }
+                            }
+
+                            else {
+                                if (checkBlackOponent(e.getX(), e.getY())) {
+                                    validMove = true;
+                                }
+
+                                else {
+                                    validMove = false;
+                                }
+
+                            }
+                        }
+
+                        else {
+                            validMove = true;
+                        }
+
+                    }
+                }
+
+                else {
+                    validMove = false;
+                }
             }
 
         }
@@ -299,11 +410,11 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                 }
             }
 
-            else { // this is were pawn is making subsequent
+            else { // this is were pawn is making subsequent moves
                 if (((yMovement == 1)) && (startY > landingY) && (xMovement == 0)) {
                     if (!piecePresent(e.getX(), e.getY())) {
                         validMove = true;
-                        if(landingY == 0){
+                        if (landingY == 0) {
                             progress = true;
                         }
                     }
@@ -314,7 +425,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                     if (piecePresent(e.getX(), e.getY())) {
                         if (checkBlackOponent(e.getX(), e.getY())) {
                             validMove = true;
-                            if(landingY == 0){
+                            if (landingY == 0) {
                                 progress = true;
                             }
                         }
@@ -377,7 +488,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                 }
             }
         }
-    
+
         if (!validMove) {
             int location = 0;
             if (startY == 0) {
@@ -389,8 +500,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
             pieces = new JLabel(new ImageIcon(pieceLocation));
             panels = (JPanel) chessBoard.getComponent(location);
             panels.add(pieces);
-        } 
-        else {
+        } else {
             if (progress) {
                 int location = 0 + (e.getX() / 75);
                 if (c instanceof JLabel) {
@@ -401,36 +511,36 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                     parent.add(pieces);
                 }
             }
-        
-        else {
-            if (success) {
-                 int location = 56 + (e.getX() / 75);
-                if (c instanceof JLabel) {
-                    Container parent = c.getParent();
-                    parent.remove(0);
-                    pieces = new JLabel(new ImageIcon("WhiteQueen.png"));
-                    parent = (JPanel) chessBoard.getComponent(location);
-                    parent.add(pieces);
+
+            else {
+                if (success) {
+                    int location = 56 + (e.getX() / 75);
+                    if (c instanceof JLabel) {
+                        Container parent = c.getParent();
+                        parent.remove(0);
+                        pieces = new JLabel(new ImageIcon("WhiteQueen.png"));
+                        parent = (JPanel) chessBoard.getComponent(location);
+                        parent.add(pieces);
+                    } else {
+                        Container parent = (Container) c;
+                        pieces = new JLabel(new ImageIcon("WhiteQueen.png"));
+                        parent = (JPanel) chessBoard.getComponent(location);
+                        parent.add(pieces);
+                    }
                 } else {
-                    Container parent = (Container) c;
-                    pieces = new JLabel(new ImageIcon("WhiteQueen.png"));
-                    parent = (JPanel) chessBoard.getComponent(location);
-                    parent.add(pieces);
+                    if (c instanceof JLabel) {
+                        Container parent = c.getParent();
+                        parent.remove(0);
+                        parent.add(chessPiece);
+                    } else {
+                        Container parent = (Container) c;
+                        parent.add(chessPiece);
+                    }
+                    chessPiece.setVisible(true);
                 }
-            } else {
-                if (c instanceof JLabel) {
-                    Container parent = c.getParent();
-                    parent.remove(0);
-                    parent.add(chessPiece);
-                } else {
-                    Container parent = (Container) c;
-                    parent.add(chessPiece);
-                }
-                chessPiece.setVisible(true);
             }
-        } 
-    }}
-    
+        }
+    }
 
     public void mouseClicked(MouseEvent e) {
 
