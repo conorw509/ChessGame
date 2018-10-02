@@ -285,125 +285,46 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 
         }
 if(pieceName.contains("Queen")){
-
     Boolean inTheWay = false;
-    int distance = Math.abs(startX - landingX);
-   if (((landingX < 0) || (landingX > 7)) || ((landingY < 0) || (landingY > 7))) {
+    int distance = Math.abs(startX - landingX); // startpos - landing pos 
+   if (((landingX < 0) || (landingX > 7)) || ((landingY < 0) || (landingY > 7))) { 
+       //if the x landing is less than 0 or greater than 7 or y landing is less than 0 or greater than 7
+       //basically if x and is greater than 7 or less than 0 invalid move dimenions of board is (0,7),(7,0) ie 8 x 8 
         validMove = false;
+        //invalid move 
     }
 
-    else {
+    else { // else valid move
         validMove = true;
-        if (Math.abs(startX - landingX) == Math.abs(startY - landingY)) {
-
-            /*
-             * Here we have 4 conditions to determine the direction of the diagnol that the
-             * bishop is intedning to move along
-             */
-            if ((startX - landingX < 0) && (startY - landingY < 0)) {
-                for (int i = 0; i < distance; i++) {
-
-                    if (piecePresent((initialX + (i * 75)), (initialY + (i * 75)))) {
-                        inTheWay = true;
-                    }
-                }
-
-            }
-
-            else if ((startX - landingX < 0) && (startY - landingY > 0)) {
-                for (int i = 0; i < distance; i++) {
-                    if (piecePresent((initialX + (i * 75)), (initialY - (i * 75)))) {
-                        inTheWay = true;
-                    }
-                }
-
-            }
-
-            else if ((startX - landingX > 0) && (startY - landingY > 0)) {
-                for (int i = 0; i < distance; i++) {
-                    if (piecePresent((initialX - (i * 75)), (initialY - (i * 75)))) {
-                        inTheWay = true;
-                    }
-                }
-
-            }
-
-            else if ((startX - landingX > 0) && (startY - landingY < 0)) {
-                for (int i = 0; i < distance; i++) {
-                    if (piecePresent((initialX - (i * 75)), (initialY + (i * 75)))) {
-                        inTheWay = true;
-                    }
-                }
-
-            }
-
-            if (inTheWay) {
-                validMove = false;
-            }
-
-            else {
-                if (piecePresent(e.getX(), (e.getY()))) {
-                    if (pieceName.contains("White")) {
-                        if (checkWhiteOponent(e.getX(), e.getY())) {
-                            validMove = true;
-                        }
-
-                        else {
-                            validMove = false;
-                        }
-                    }
-
-                    else {
-                        if (checkBlackOponent(e.getX(), e.getY())) {
-                            validMove = true;
-                        }
-
-                        else {
-                            validMove = false;
-                        }
-
-                    }
-                }
-
-                else {
-                    validMove = true;
-                }
-
-            }
-        }
-
-        else {
-            validMove = false;
-        }
-    }
-
-
-
-
-
-
-
-
 
 
 }
+}
       if (pieceName.contains("Bishup")) {
-            Boolean inTheWay = false;
-            int distance = Math.abs(startX - landingX);
+
+        int xCordinate = startX - landingX;
+        int yCordinate = startY-landingY;
+
+            Boolean inTheWay = false; //in the way is false 
+            int distance = Math.abs(xCordinate); // ???? think this returns the whole number of the x cordinate gives it to variable distance
            if (((landingX < 0) || (landingX > 7)) || ((landingY < 0) || (landingY > 7))) {
                 validMove = false;
             }
 
             else {
                 validMove = true;
-                if (Math.abs(startX - landingX) == Math.abs(startY - landingY)) {
+                //math.abs returns absolute value of a number
+                if (Math.abs(xCordinate) == Math.abs(yCordinate)) {
+                    //if start pos is 0 - landing pos say for example 3 math.abs returns position to be 3 and same for y co-ordinate
+                    //so this essentially determines were the piece will be placed on the board
 
                     /*
                      * Here we have 4 conditions to determine the direction of the diagnol that the
                      * bishop is intedning to move along
                      */
-                    if ((startX - landingX < 0) && (startY - landingY < 0)) {
-                        for (int i = 0; i < distance; i++) {
+
+                    if ((xCordinate < 0) && (yCordinate < 0)) {   // if x and y cordinates less than 0 
+                        for (int i = 0; i < distance; i++) { 
 
                             if (piecePresent((initialX + (i * 75)), (initialY + (i * 75)))) {
                                 inTheWay = true;
@@ -412,7 +333,7 @@ if(pieceName.contains("Queen")){
 
                     }
 
-                    else if ((startX - landingX < 0) && (startY - landingY > 0)) {
+                    else if ((xCordinate < 0) && (yCordinate > 0)) {
                         for (int i = 0; i < distance; i++) {
                             if (piecePresent((initialX + (i * 75)), (initialY - (i * 75)))) {
                                 inTheWay = true;
@@ -421,7 +342,7 @@ if(pieceName.contains("Queen")){
 
                     }
 
-                    else if ((startX - landingX > 0) && (startY - landingY > 0)) {
+                    else if ((xCordinate > 0) && (yCordinate > 0)) {
                         for (int i = 0; i < distance; i++) {
                             if (piecePresent((initialX - (i * 75)), (initialY - (i * 75)))) {
                                 inTheWay = true;
@@ -430,7 +351,7 @@ if(pieceName.contains("Queen")){
 
                     }
 
-                    else if ((startX - landingX > 0) && (startY - landingY < 0)) {
+                    else if ((xCordinate > 0) && (yCordinate < 0)) {
                         for (int i = 0; i < distance; i++) {
                             if (piecePresent((initialX - (i * 75)), (initialY + (i * 75)))) {
                                 inTheWay = true;
