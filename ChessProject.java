@@ -220,7 +220,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         System.out.println("the yMovement is:" + yMovement);
         System.out.println("landing cooridnates are : " + "(" + landingX + "," + landingY + ")");
         System.out.println("-----------------------------");
-        int xCordinate = startX - landingX;
+        int xCordinate = startX - landingX; 
         int yCordinate = startY - landingY;
 
         /*
@@ -282,11 +282,28 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 
         if (pieceName.contains("King")) {
             Boolean inTheWay = false;
-         
+            boolean diagonalMovement = xMovement ==1 && yMovement ==1;
+            Boolean verticalMovement =  yMovement ==1 && xMovement==0;
+            Boolean horizontalMovement =xMovement ==1 && yMovement ==0;
+           
+            if (((landingX < 0) || (landingX > 7)) || ((landingY < 0) || (landingY > 7)))
+            { 
+                validMove = false; 
+            } 
         
            
-           if((xMovement == 1 || yMovement ==1 )) {
-               validMove = true;
+           if((diagonalMovement || verticalMovement || horizontalMovement)) {
+           //|| ( yMovement ==1 || xMovement ==1) && xMovement ==1 && yMovement ==0 && yMovement ==1 && xMovement==0){
+                //makes king go one in vertical direction
+           
+           //&& (xMovement ==1 && yMovement ==0)s
+          //  || (((Math.abs(xCordinate) != 1) && (Math.abs(yCordinate) == 1))
+          // || ((Math.abs(xCordinate) == 1) && (Math.abs(yCordinate) != 1)))     )
+         
+            // || ((Math.abs(xCordinate) == 0) && (Math.abs(yCordinate) != 0)))      ) {
+               
+               
+                validMove = true;
            }
 
            else{
@@ -322,7 +339,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
          */
 
         if (pieceName.contains("Queen")) {
-            Boolean inTheWay = false;
+            Boolean inTheWay = false; 
             int distance = Math.abs(startX - landingX); // startpos - landing pos
             if (((landingX < 0) || (landingX > 7)) || ((landingY < 0) || (landingY > 7))) {
                 // if the x landing is less than 0 or greater than 7 or y landing is less than 0
@@ -799,12 +816,12 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                 }
             }
 
-            else { // this is were pawn is making subsequent moves
+            else { // this is were pawn is making subsequent moves 
                 if (((yMovement == 1)) && (startY > landingY) && (xMovement == 0)) {
                     if (!piecePresent(e.getX(), e.getY())) {
                         validMove = true;
                         if (landingY == 0) {
-                            progress = true;
+                            progress = true; 
                         }
                     }
 
