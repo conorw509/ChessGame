@@ -203,10 +203,10 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
          * So a Pawn is able to move two squares forward one its first go but only one
          * square after that. The Pawn is the only piece that cannot move backwards in
          * chess...so be careful when committing a pawn forward. A Pawn is able to take
-         * any of the opponent’s pieces but they have to be one   e. in a diagonal
-         * direction from the Pawns original position. If a Pawn makes it to the top of
-         * the other side, the Pawn can turn into any other piece, for demonstration
-         * purposes the Pawn here turns into a Queen.
+         * any of the opponent’s pieces but they have to be one   diagonal direction
+         * from the Pawns original position. If a Pawn makes it to the top of the other
+         * side, the Pawn can turn into any other piece, for demonstration purposes the
+         * Pawn here turns into a Queen.
          */
 
         int landingX = (e.getX() / 75);
@@ -279,6 +279,48 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
             }
 
         }
+
+        if (pieceName.contains("King")) {
+            Boolean inTheWay = false;
+         
+        
+           
+           if((xMovement == 1 || yMovement ==1 )) {
+               validMove = true;
+           }
+
+           else{
+               validMove = false;
+           }
+
+            /*
+             * if(yMovement >1 && xMovement >1){ validMove = false; } else{ validMove =
+             * true; }
+             */
+
+        }
+        /*
+         * if (startY == 7 || startY == 0 && startX == 3) { // if y is 7 or 0 and at x
+         * position 3 if (xMovement == 1 || yMovement == 1) { //if x and y movements are
+         * 1 valid move validMove = true; }
+         * 
+         * }
+         */
+
+        /*
+         * if (((landingX < 0) || (landingX > 7)) || ((landingY < 0) || (landingY > 7)))
+         * { validMove = false; } else { validMove = true; }
+         */
+
+        // if(((Math.abs(xCordinate)=1) ==(Math.abs(yCordinate)=1))) {
+
+        // }
+
+        /*
+         * if ((yMovement = 1) == (xMovement = 1)) { // if ymovement =1 is equal to
+         * xmovement =1 bishop pos x=y // restriction to 1 validMove = true; }
+         */
+
         if (pieceName.contains("Queen")) {
             Boolean inTheWay = false;
             int distance = Math.abs(startX - landingX); // startpos - landing pos
@@ -309,7 +351,8 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                                                             // than 0? invalid move?
                     for (int i = 0; i < distance; i++) { // i = 0 i < the x cordinate distance incrment i
 
-                        if (piecePresent((initialX + (i * 75)), (initialY + (i * 75)))) { // dont understand i *75??
+                        if (piecePresent((initialX + (i * 75)), (initialY + (i * 75)))) { // dont understand i *75?? 75
+                                                                                          // is dimension of board
                             // if there is a piece present inThe Way is true
                             inTheWay = true;
                         }
@@ -375,7 +418,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 
                     // else true else false why do we need these 2 elses??
 
-                   else {
+                    else {
                         validMove = true;
                     }
 
@@ -384,10 +427,13 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                 validMove = false;
             }
 
+            
             if (((Math.abs(xCordinate) != 0) && (Math.abs(yCordinate) == 0))
                     || ((Math.abs(xCordinate) == 0) && (Math.abs(yCordinate) != 0))) {
                 // if xcordinate != 0 and y =0 or x = 0 and y !=0
 
+               
+               
                 /********* 4 Different set of moves for rook ***********/
 
                 if (Math.abs(xCordinate) != 0) { // if x doesnt equal zero do this
@@ -718,7 +764,14 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         {// pawns first move
             if (startY == 6) {
 
-                if (((yMovement == 1) || (yMovement == 2)) && (startY > landingY) && (xMovement == 0)) {
+                if (((yMovement == 1) || (yMovement == 2)) && (startY > landingY) && (xMovement == 0)) { // if y moves 1
+                                                                                                         // or 2 places
+                                                                                                         // and start
+                                                                                                         // pos is
+                                                                                                         // greater than
+                                                                                                         // land pos and
+                                                                                                         // no x
+                                                                                                         // movement
                     if (yMovement == 2) {
                         if ((!piecePresent(e.getX(), e.getY())) && (!piecePresent(e.getX(), (e.getY() + 75)))) {
                             validMove = true;
