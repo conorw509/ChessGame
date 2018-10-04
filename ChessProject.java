@@ -483,13 +483,67 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                 }
 
                 if (verticalMovement) {
-                 if(!piecePresent(e.getX(), e.getY())){
-                  validMove = true;
+
+
+
+                    if ((!piecePresent(e.getX(), e.getY())) && (!piecePresent(e.getX(), (e.getY() + 75)))) {
+                        validMove = true; 
                     }
+
+                
+
+                else {
+                    if (!piecePresent(e.getX(), e.getY())) {
+
+                        validMove = true; 
+
+                    }
+
+                
+        
+               if (piecePresent(e.getX(), e.getY())) {
+                if (pieceName.contains("Black")){
+                    if (checkBlackOponent(e.getX(), e.getY())) {
+                        validMove = true;
+                    }
+                }
+            }
+
+
+                if (piecePresent(e.getX(), e.getY())) {
+                    if (pieceName.contains("White")){
+                    if (checkWhiteOponent(e.getX(), e.getY())) {
+                        validMove = true;
+                    }
+                }
+            }
+
+              /*  if (!piecePresent(e.getX(), e.getY())) {
+                    validMove = true;
+                    if (landingY == 0) {
+                        progress = true;
+                    }
+                }*/
+           
+            }
+           
+           
+            }
+               /*  if(!piecePresent(e.getX(), e.getY())){
+                  
+                  validMove = true;
+                    
+
+                }
                 }
                 else if(piecePresent(e.getX(), e.getY())){
                     validMove = false;
                 }
+
+                else{
+
+                    
+                }*/
 
             } // end of horizontal vertical etc
 
@@ -980,7 +1034,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                                                                                                      // movement
                 if (yMovement == 2) {
                     if ((!piecePresent(e.getX(), e.getY())) && (!piecePresent(e.getX(), (e.getY() + 75)))) {
-                        validMove = true;
+                        validMove = true; 
                     }
 
                 }
