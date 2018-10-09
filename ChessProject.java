@@ -8,7 +8,7 @@ import javax.swing.*;
 	has been coded is a white pawn...a lot done, more to do!
 */
 
-public class ChessProject extends JFrame implements MouseListener, MouseMotionListener {
+public class ChessProject extends JFrame implements MouseListener, MouseMotionListener { 
     JLayeredPane layeredPane;
     JPanel chessBoard;
     JLabel chessPiece;
@@ -150,6 +150,24 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         }
         return oponent;
     }
+
+
+    private Boolean checkForKing(int newX, int newY) {
+        Boolean oponent;
+        Component c1 = chessBoard.findComponentAt(newX, newY);
+        JLabel awaitingPiece = (JLabel) c1;
+        String tmp1 = awaitingPiece.getIcon().toString();
+        if (((tmp1.contains("King")))) {
+            oponent = true;
+        } else {
+            oponent = false;
+        }
+        return oponent;
+    }
+
+
+
+
 
     /*
      * This method is called when we press the Mouse. So we need to find out what
@@ -313,7 +331,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                                                                                               // 75
                                 // is dimension of board
                                 // if there is a piece present inThe Way is true
-                                inTheWay = true;
+                                inTheWay = true; 
                             }
                         }
 
@@ -321,7 +339,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 
                     else if ((xCordinate < 0) && (yCordinate > 0)) {
                         for (int i = 0; i < distance; i++) {
-                            if (piecePresent((initialX + (i * 75)), (initialY - (i * 75)))) {
+                            if (piecePresent((initialX + (i * 75)), (initialY - (i * 75)))) { 
                                 inTheWay = true;
                             }
                         }
@@ -347,7 +365,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                     }
 
                     if (inTheWay) { // if in the way is true invalid move
-                        validMove = false;
+                        validMove = false; 
                     }
 
                     else { // if piece present at specified co-ordinates and if piece contains white valid
@@ -355,11 +373,15 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                         if (piecePresent(e.getX(), (e.getY()))) {
                             if (pieceName.contains("White")) {
                                 if (checkWhiteOponent(e.getX(), e.getY())) {
-                                    validMove = true;
-                                }
+                                    validMove = true; 
+                                } 
+
+
 
                                 else {
+                                    
                                     validMove = false;
+
                                 }
                             }
 
@@ -373,6 +395,9 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                                 }
 
                             }
+
+
+                            
                         }
 
                         // else true else false why do we need these 2 elses??
@@ -1139,7 +1164,8 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
             pieces = new JLabel(new ImageIcon(pieceLocation));
             panels = (JPanel) chessBoard.getComponent(location);
             panels.add(pieces);
-        } else {
+        } 
+        else {
             if (progress) {
                 int location = 0 + (e.getX() / 75);
                 if (c instanceof JLabel) {
@@ -1149,11 +1175,17 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                     parent = (JPanel) chessBoard.getComponent(location);
                     parent.add(pieces);
                 }
+                else {
+                    Container parent = (Container) c;
+                    pieces = new JLabel(new ImageIcon("BlackQueen.png"));
+                    parent = (JPanel) chessBoard.getComponent(location);
+                    parent.add(pieces);
+                }
             }
 
             else {
                 if (success) {
-                    int location = 56 + (e.getX() / 75);
+                    int location = 56 + (e.getX() / 75); 
                     if (c instanceof JLabel) {
                         Container parent = c.getParent();
                         parent.remove(0);
