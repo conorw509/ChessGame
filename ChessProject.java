@@ -164,18 +164,26 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         return oponent;
     }
 
-    private Boolean checkForKing(int newX, int newY) {
-        Boolean oponent;
-        Component c1 = chessBoard.findComponentAt(newX, newY);
-        JLabel awaitingPiece = (JLabel) c1;
-        String tmp1 = awaitingPiece.getIcon().toString();
-        if (((tmp1.contains("King")))) {
-            oponent = true;
-        } else {
-            oponent = false;
-        }
-        return oponent;
-    }
+
+    private Boolean checkKingOpponent(int x, int y) {
+        try {
+       Component c1 = chessBoard.findComponentAt(x, y);
+       if (c1 instanceof JPanel) {
+       return  false;
+      
+     }
+       JLabel checkingPiece = (JLabel) c1;
+      String tmp1 = checkingPiece.getIcon().toString();
+      return 
+      tmp1.contains("King");
+      }
+  
+      catch (Exception e) {
+      return false;
+              }
+      
+          }
+      
 
     /*
      * This method is called when we press the Mouse. So we need to find out what
@@ -413,8 +421,31 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                         }
 
                     }
-                } else {
+                } 
+                
+                
+                
+                
+                
+                else {
                     validMove = false;
+                }
+
+
+
+
+                if ((checkKingOpponent(e.getX() -75 , e.getY() +75 )) || (checkKingOpponent(e.getX()- 75, e.getY ()))
+
+                || (checkKingOpponent(e.getX() -75 , e.getY() -75 )) || (checkKingOpponent(e.getX(), e.getY ()-75))
+        
+                || (checkKingOpponent(e.getX() +75 , e.getY ()-75 )) || (checkKingOpponent(e.getX()+ 75, e.getY ()))
+        
+                || (checkKingOpponent(e.getX() +75 , e.getY ()+75 )) || (checkKingOpponent(e.getX(), e.getY()+75))) {
+        
+        
+        
+                    validMove=false;
+    
                 }
 
                 if (horizontalMovement) {
@@ -509,6 +540,27 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                             validMove = true;
                         }
 
+
+
+                        if ((checkKingOpponent(e.getX() -75 , e.getY() +75 )) || (checkKingOpponent(e.getX()- 75, e.getY ()))
+
+                        || (checkKingOpponent(e.getX() -75 , e.getY() -75 )) || (checkKingOpponent(e.getX(), e.getY ()-75))
+                
+                        || (checkKingOpponent(e.getX() +75 , e.getY ()-75 )) || (checkKingOpponent(e.getX()+ 75, e.getY ()))
+                
+                        || (checkKingOpponent(e.getX() +75 , e.getY ()+75 )) || (checkKingOpponent(e.getX(), e.getY()+75))) {
+                
+                
+                
+                            validMove=false;
+            
+                        }
+
+
+
+
+
+
                     }
 
                 }
@@ -551,6 +603,23 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                          * { progress = true; } }
                          */
 
+                    }
+
+
+
+
+                    if ((checkKingOpponent(e.getX() -75 , e.getY() +75 )) || (checkKingOpponent(e.getX()- 75, e.getY ()))
+
+                    || (checkKingOpponent(e.getX() -75 , e.getY() -75 )) || (checkKingOpponent(e.getX(), e.getY ()-75))
+            
+                    || (checkKingOpponent(e.getX() +75 , e.getY ()-75 )) || (checkKingOpponent(e.getX()+ 75, e.getY ()))
+            
+                    || (checkKingOpponent(e.getX() +75 , e.getY ()+75 )) || (checkKingOpponent(e.getX(), e.getY()+75))) {
+            
+            
+            
+                        validMove=false;
+        
                     }
 
                 }
