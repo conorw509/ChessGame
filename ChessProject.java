@@ -125,7 +125,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
     /*
      * This is a method to check if a piece is a Black piece.
      */
-    private Boolean checkWhiteOponent(int newX, int newY) {
+    private Boolean checkWhiteOponent(int newX, int newY) { 
         Boolean oponent;
         Component c1 = chessBoard.findComponentAt(newX, newY);
         JLabel awaitingPiece = (JLabel) c1;
@@ -164,18 +164,18 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         return oponent;
     }
 
-
-    private Boolean checkKingOpponent(int x, int y) {
-        try {
-       Component c1 = chessBoard.findComponentAt(x, y);
-       if (c1 instanceof JPanel) {
-       return  false;
+     //checking for a king opponent
+    private Boolean checkKingOpponent(int x, int y) { // method name and parameters
+        try { 
+       Component c1 = chessBoard.findComponentAt(x, y); //setting x and y to c1 
+       if (c1 instanceof JPanel) { // if c1 is a jpanel
+       return  false; // return false as the pieces are jPanels 
       
      }
-       JLabel checkingPiece = (JLabel) c1;
-      String tmp1 = checkingPiece.getIcon().toString();
+       JLabel checkingPiece = (JLabel) c1; //casting panel to a lable 
+      String tmp1 = checkingPiece.getIcon().toString(); // casting the lable to a string 
       return 
-      tmp1.contains("King");
+      tmp1.contains("King"); // if the string contains King return true 
       }
   
       catch (Exception e) {
@@ -222,13 +222,13 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         if (chessPiece == null)
             return;
 
-        chessPiece.setVisible(false);
+        chessPiece.setVisible(false); 
         Boolean progress = false;
         Boolean success = false;
-        Component c = chessBoard.findComponentAt(e.getX(), e.getY());
+        Component c = chessBoard.findComponentAt(e.getX(), e.getY()); 
         String tmp = chessPiece.getIcon().toString();
         String pieceName = tmp.substring(0, (tmp.length() - 4));
-        Boolean validMove = false;
+        Boolean validMove = false; 
 
         /*
          * The only piece that has been enabled to move is a White Pawn...but we should
@@ -243,10 +243,11 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
          * turns into a Queen.
          */
 
-        int landingX = (e.getX() / 75);
-        int landingY = (e.getY() / 75);
-        int xMovement = Math.abs((e.getX() / 75) - startX);
-        int yMovement = Math.abs((e.getY() / 75) - startY);
+        int landingX = (e.getX() / 75); // 75 is dimension of the board so here we are getting 1 square on x axis
+        int landingY = (e.getY() / 75); // same for y
+        int xMovement = Math.abs((e.getX() / 75) - startX); //math.abs returns the absolute number - startX which contains e.getx 
+                                                           //bit confused on the outcome of it
+        int yMovement = Math.abs((e.getY() / 75) - startY); 
         System.out.println("-----------------------------");
         System.out.println("The piece being moved is:" + pieceName);
         System.out.println("starting co-ordinates are:" + "(" + startX + "," + startY + ")");
@@ -254,24 +255,8 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         System.out.println("the yMovement is:" + yMovement);
         System.out.println("landing cooridnates are : " + "(" + landingX + "," + landingY + ")");
         System.out.println("-----------------------------");
-        int xCordinate = startX - landingX; // new variables
+        int xCordinate = startX - landingX; //e.getx - e.getx ?? 
         int yCordinate = startY - landingY;
-
-        /*
-         * if the queen is being placed back onto the board if the movment is like a
-         * bishop test for a valid move we have a valid bishop movement if the xmovement
-         * == movement if there is something in the way if there is a piece on the
-         * landing square, if so make sure that its an enemy piece if it is we have a
-         * valid move
-         * 
-         * else if the movement is like a rook test for a valid rook movement if there
-         * is an xmovement there cant be a ymovement if there is a ymovement there cant
-         * be an xmovement if one of the above conditions are true we simply make sure
-         * that there is nothing in the way and that we cannot take our own piece
-         * 
-         * 
-         * if its doing anything else its not a valid movement
-         */
 
         if (pieceName.contains("Knight")) {
 
@@ -284,21 +269,24 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
              */
 
             // if knight is moving in L shape
-            if (((xMovement == 1) && (yMovement == 2)) || ((xMovement == 2) && (yMovement == 1))) { // king x=1 y =0 x
-                                                                                                    // =0 y = 1 king
-                                                                                                    // movements
+            /*
+             x | +1 
+               |----->   ^
+               |_________|__+2            */
+
+            if (((xMovement == 1) && (yMovement == 2)) || ((xMovement == 2) && (yMovement == 1))) { 
 
                 if (!piecePresent(e.getX(), e.getY())) {
                     validMove = true;
 
-                } // if theres no piece present make move
+                } // if theres no piece present make move 
 
                 else {
 
                     if (pieceName.contains("White")) {
                         if (checkWhiteOponent(e.getX(), e.getY())) {
-                            validMove = true; // else we know piece present so check if its a white oponent if so valid
-                                              // move
+                            validMove = true; // else we know piece present so check if its a white oponent if so valid 
+                                              
 
                         }
                     }
@@ -317,63 +305,86 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         }
 
         if (pieceName.contains("King")) {
-            Boolean inTheWay = false;
-            int distance = Math.abs(startX - landingX);
+            Boolean inTheWay = false; // boolean variable 
+            int distance = Math.abs(startX - landingX); // getting the distance 
             Boolean diagonalMovement = xMovement == 1 && yMovement == 1;
             Boolean verticalMovement = yMovement == 1 && xMovement == 0;
             Boolean horizontalMovement = xMovement == 1 && yMovement == 0;
 
-            if (((landingX < 0) || (landingX > 7)) || ((landingY < 0) || (landingY > 7))) {
+
+          
+         /*  if (((landingX < 0) || (landingX > 7)) || ((landingY < 0) || (landingY > 7))) {
+                validMove = false;  
+
+           }*/
+/*Dimension size = new Dimension(600,600);
+
+//int boardHeight = size.height;
+//int boardwith = size.width;
+ChessProject c3 = new ChessProject();
+int height =c3.chessBoard.HEIGHT;
+int width =c3.chessBoard.WIDTH; */
+  
+  
+
+
+/*
+            if((( xMovement > WIDTH) && (yMovement > height))){
+                
                 validMove = false;
-            }
+            }*/
+
+            /*if(!piecePresent(e.getX(), e.getY()-75)){
+                validMove = false;
+            }*/
 
             if ((diagonalMovement || verticalMovement || horizontalMovement)) {
-                // || ( yMovement ==1 || xMovement ==1) && xMovement ==1 && yMovement ==0 &&
-                // yMovement ==1 && xMovement==0){
-                // makes king go one in vertical direction
-
-                // && (xMovement ==1 && yMovement ==0)s
-                // || (((Math.abs(xCordinate) != 1) && (Math.abs(yCordinate) == 1))
-                // || ((Math.abs(xCordinate) == 1) && (Math.abs(yCordinate) != 1))) )
-
-                // || ((Math.abs(xCordinate) == 0) && (Math.abs(yCordinate) != 0))) ) {
-
+                
+          
                 if (diagonalMovement) {
 
-                    if ((xCordinate < 0) && (yCordinate < 0)) { // if x and y cordinates less than 0 how can they be
-                                                                // less
-                        // than 0? invalid move?
-                        for (int i = 0; i < distance; i++) { // i = 0 i < the x cordinate distance incrment i
+                    if ((xCordinate < 0) && (yCordinate < 0)) {   // x cordinate = starx - landingX 
+                                                                 // if x and y cordinates less than 0 how can they be
+                                                                // less  than 0? invalid move? 
+                        
+                        for (int i = 0; i < distance; i++) { // i = 0 i < the distance 
 
                             if (piecePresent((initialX + (i * 75)), (initialY + (i * 75)))) { // dont understand i *75??
-                                                                                              // 75
-                                // is dimension of board
-                                // if there is a piece present inThe Way is true
-                                inTheWay = true;
+                                                                                              
+                                // 75 is dimension of board
+
+                                // if there is a piece present inThe Way is true 
+                                //my understanding here is i loops through all the squares checking if piece prsent 
+                                //x being plus diagonally this is calculated at(intialx i *75) so both x and y going up board diagonally
+                                inTheWay = true;  // in the way is true if theres a piece present at either square to left or right going up board
+
+                                //so if piece is in middle it goes to the left or the right diagonally 
                             }
                         }
 
                     }
 
-                    else if ((xCordinate < 0) && (yCordinate > 0)) {
+                    else if ((xCordinate < 0) && (yCordinate > 0)) { 
+                        for (int i = 0; i < distance; i++) { 
+                            if (piecePresent((initialX + (i * 75)), (initialY - (i * 75)))) { //similar situation exept if piece is plus on the x it can go
+                                inTheWay = true;                                              // - on the Y so essentially backwards if piece was far right can go diagonally
+                                                                                              //down the board to the left
+                            }
+                        }
+
+                    }
+
+                    else if ((xCordinate > 0) && (yCordinate > 0)) { 
                         for (int i = 0; i < distance; i++) {
-                            if (piecePresent((initialX + (i * 75)), (initialY - (i * 75)))) {
+                            if (piecePresent((initialX - (i * 75)), (initialY - (i * 75)))) { //similar situation to first statment if piece is in the middle will go left 
+                                                                                            // or right depending 
                                 inTheWay = true;
                             }
                         }
 
                     }
 
-                    else if ((xCordinate > 0) && (yCordinate > 0)) {
-                        for (int i = 0; i < distance; i++) {
-                            if (piecePresent((initialX - (i * 75)), (initialY - (i * 75)))) {
-                                inTheWay = true;
-                            }
-                        }
-
-                    }
-
-                    else if ((xCordinate > 0) && (yCordinate < 0)) {
+                    else if ((xCordinate > 0) && (yCordinate < 0)) {// similar situation but reversed piece is far left can go diagonally back right to second statment
                         for (int i = 0; i < distance; i++) {
                             if (piecePresent((initialX - (i * 75)), (initialY + (i * 75)))) {
                                 inTheWay = true;
@@ -433,15 +444,25 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 
 
 
+//checking for kingopponent in all four directions - 75 is coming down the board and + 75 is going up the board 
+                if ((checkKingOpponent(e.getX() -75 , e.getY() +75 )) 
+                //so if king coming down the board and king going up the board ie veritcally in front of eachother valid move is false
+                || (checkKingOpponent(e.getX()- 75, e.getY ()))
+                //or 
 
-                if ((checkKingOpponent(e.getX() -75 , e.getY() +75 )) || (checkKingOpponent(e.getX()- 75, e.getY ()))
-
-                || (checkKingOpponent(e.getX() -75 , e.getY() -75 )) || (checkKingOpponent(e.getX(), e.getY ()-75))
+                || (checkKingOpponent(e.getX() -75 , e.getY() -75 )) 
+                //if the king is 2 spaces vertically down invalid move
+                || (checkKingOpponent(e.getX(), e.getY ()-75)) 
+                //if king is coming down from the top right 
+                
+                || (checkKingOpponent(e.getX() +75 , e.getY ()-75 )) 
+                
+                || (checkKingOpponent(e.getX()+ 75, e.getY ()))
         
-                || (checkKingOpponent(e.getX() +75 , e.getY ()-75 )) || (checkKingOpponent(e.getX()+ 75, e.getY ()))
-        
-                || (checkKingOpponent(e.getX() +75 , e.getY ()+75 )) || (checkKingOpponent(e.getX(), e.getY()+75))) {
-        
+                || (checkKingOpponent(e.getX() +75 , e.getY ()+75 ))
+                //if king is 2 spaces vertically up 
+                 || (checkKingOpponent(e.getX(), e.getY()+75))) {
+                //
         
         
                     validMove=false;
