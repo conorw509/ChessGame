@@ -447,8 +447,9 @@ int width =c3.chessBoard.WIDTH; */
 //checking for kingopponent in all four directions - 75 is coming down the board and + 75 is going up the board 
                 if ((checkKingOpponent(e.getX() -75 , e.getY() +75 )) 
                 //so if king coming down the board and king going up the board ie veritcally in front of eachother valid move is false
+                
                 || (checkKingOpponent(e.getX()- 75, e.getY ()))
-                //or 
+                //coming down from top left
 
                 || (checkKingOpponent(e.getX() -75 , e.getY() -75 )) 
                 //if the king is 2 spaces vertically down invalid move
@@ -457,12 +458,14 @@ int width =c3.chessBoard.WIDTH; */
                 
                 || (checkKingOpponent(e.getX() +75 , e.getY ()-75 )) 
                 
+                
                 || (checkKingOpponent(e.getX()+ 75, e.getY ()))
+                // coming up from bottom left
         
                 || (checkKingOpponent(e.getX() +75 , e.getY ()+75 ))
                 //if king is 2 spaces vertically up 
                  || (checkKingOpponent(e.getX(), e.getY()+75))) {
-                //
+                // king is coming up from bottom right
         
         
                     validMove=false;
@@ -476,7 +479,7 @@ int width =c3.chessBoard.WIDTH; */
                             for (int i = 0; i < xMovement; i++) { // goes into this as x cordinate is not equal to and
                                                                   // greater than 0
                                 if (piecePresent(initialX - (i * 75), e.getY())) { // if theres a piece present
-                                    inTheWay = true; // in the way
+                                    inTheWay = true; // in the way 
                                     break;
                                 } else {
                                     inTheWay = false; // false
